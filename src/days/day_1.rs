@@ -1,3 +1,5 @@
+use itertools::Itertools;
+
 pub fn max_calories_carried(calories: Vec<Vec<usize>>) -> usize {
     calories
         .into_iter()
@@ -7,10 +9,12 @@ pub fn max_calories_carried(calories: Vec<Vec<usize>>) -> usize {
 }
 
 pub fn total_calories_carried_by_top_three_elves(calories: Vec<Vec<usize>>) -> usize {
-    let mut sums: Vec<usize> = calories.into_iter().map(|elf| elf.iter().sum()).collect();
-    sums.sort();
-    sums.reverse();
-    sums.iter().take(3).sum()
+    calories
+        .into_iter()
+        .map(|elf| elf.iter().sum::<usize>())
+        .sorted_by(|a, b| a.cmp(b).reverse())
+        .take(3)
+        .sum()
 }
 
 #[cfg(test)]
