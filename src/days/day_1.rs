@@ -15,8 +15,9 @@ pub fn total_calories_carried_by_top_three_elves(calories: Vec<Vec<usize>>) -> u
 
 #[cfg(test)]
 mod tests {
-    use testing_utils::speculoos::assert_that;
-    use testing_utils::{data_sample_string, LineGroups};
+    use speculoos::prelude::*;
+
+    use crate::testing_utils::{data_sample_string, LineGroups};
 
     use super::*;
 
