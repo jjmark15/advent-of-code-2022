@@ -1,18 +1,22 @@
+use std::cmp::Ordering;
+
 use itertools::Itertools;
 
+fn elf_calorie_sums(calories: Vec<Vec<usize>>) -> impl Iterator<Item = usize> {
+    calories.into_iter().map(|elf| elf.iter().sum::<usize>())
+}
+
+fn reverse_cmp(a: &usize, b: &usize) -> Ordering {
+    b.cmp(a)
+}
+
 pub fn max_calories_carried(calories: Vec<Vec<usize>>) -> usize {
-    calories
-        .into_iter()
-        .map(|elf| elf.iter().sum())
-        .max()
-        .unwrap()
+    elf_calorie_sums(calories).max().unwrap()
 }
 
 pub fn total_calories_carried_by_top_three_elves(calories: Vec<Vec<usize>>) -> usize {
-    calories
-        .into_iter()
-        .map(|elf| elf.iter().sum::<usize>())
-        .sorted_by(|a, b| a.cmp(b).reverse())
+    elf_calorie_sums(calories)
+        .sorted_by(reverse_cmp)
         .take(3)
         .sum()
 }
