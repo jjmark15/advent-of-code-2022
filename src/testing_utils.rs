@@ -1,7 +1,5 @@
 use std::path::{Path, PathBuf};
 
-pub use speculoos;
-
 fn data_sample_path(filename: &str) -> PathBuf {
     Path::new("./data_samples").join(filename)
 }
