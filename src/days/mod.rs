@@ -1,3 +1,2 @@
-pub use day_1::*;
-
-mod day_1;
+pub mod day_1;
+pub mod day_2;
