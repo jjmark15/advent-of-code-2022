@@ -45,16 +45,12 @@ mod tests {
     type Data = Vec<Pair>;
 
     fn split_pair(line: &str) -> (&str, &str) {
-        let split: Vec<&str> = line.split(',').collect();
-        (split.first().unwrap(), split.get(1).unwrap())
+        line.split_once(',').unwrap()
     }
 
     fn to_assignment(s: &str) -> Assignment {
-        let split: Vec<usize> = s
-            .split('-')
-            .map(|digit| digit.parse::<usize>().unwrap())
-            .collect();
-        Assignment(*split.first().unwrap(), *split.get(1).unwrap())
+        let (first, second) = s.split_once('-').unwrap();
+        Assignment(first.parse().unwrap(), second.parse().unwrap())
     }
 
     fn short_data_set() -> Data {
