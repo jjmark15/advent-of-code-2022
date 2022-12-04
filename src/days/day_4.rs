@@ -22,11 +22,12 @@ impl Assignment {
         self.0 <= other.0 && self.1 >= other.1
     }
 
+    fn spans(&self, point: usize) -> bool {
+        self.0 <= point && self.1 >= point
+    }
+
     fn overlaps(&self, other: &Self) -> bool {
-        (self.0 <= other.1 && self.0 >= other.0)
-            || (self.1 >= other.0 && self.1 <= other.1)
-            || (self.0 <= other.0 && self.1 >= other.1)
-            || (self.0 >= other.0 && self.1 <= other.1)
+        self.spans(other.0) || self.spans(other.1) || self.contains(other) || other.contains(self)
     }
 }
 
