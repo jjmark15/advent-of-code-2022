@@ -1,6 +1,12 @@
 pub fn part_1(stacks: Vec<Stack>, instructions: Vec<Instruction>) -> Vec<Crate> {
     let mut stacks = Stacks(stacks);
-    instructions.iter().for_each(|i| stacks.apply(i));
+    instructions.iter().for_each(|i| stacks.apply(i, false));
+    stacks.top_crates()
+}
+
+pub fn part_2(stacks: Vec<Stack>, instructions: Vec<Instruction>) -> Vec<Crate> {
+    let mut stacks = Stacks(stacks);
+    instructions.iter().for_each(|i| stacks.apply(i, true));
     stacks.top_crates()
 }
 
@@ -15,14 +21,16 @@ pub struct Instruction {
 struct Stacks(Vec<Stack>);
 
 impl Stacks {
-    fn apply(&mut self, instruction: &Instruction) {
+    fn apply(&mut self, instruction: &Instruction, bulk_operation: bool) {
         let mut drain: Vec<Crate> = {
             let source = self.0.get_mut(instruction.source - 1).unwrap();
             source
                 .drain(source.len() - instruction.quantity..)
                 .collect()
         };
-        drain.reverse();
+        if !bulk_operation {
+            drain.reverse();
+        }
         self.0
             .get_mut(instruction.destination - 1)
             .unwrap()
@@ -131,5 +139,19 @@ mod tests {
         let (stacks, instructions) = long_data_set();
         assert_that(&part_1(stacks, instructions).into_iter().join(""))
             .is_equal_to("CVCWCRTVQ".to_string())
+    }
+
+    #[test]
+    fn part_2_short() {
+        let (stacks, instructions) = short_data_set();
+        assert_that(&part_2(stacks, instructions).into_iter().join(""))
+            .is_equal_to("MCD".to_string())
+    }
+
+    #[test]
+    fn part_2_long() {
+        let (stacks, instructions) = long_data_set();
+        assert_that(&part_2(stacks, instructions).into_iter().join(""))
+            .is_equal_to("CNSCZWLVT".to_string())
     }
 }
