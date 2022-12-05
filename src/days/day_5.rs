@@ -81,28 +81,26 @@ mod tests {
 
     fn parse_stacks(input: &str) -> Vec<Vec<Crate>> {
         let lines: Vec<&str> = input.lines().collect();
-        let stack_keys: Vec<usize> = lines
+
+        lines
             .last()
             .unwrap()
             .split_whitespace()
             .map(|key| key.parse().unwrap())
-            .collect();
-
-        stack_keys
-            .iter()
-            .map(|stack_key| {
-                let mut stack: Vec<Crate> = vec![];
-
-                for row_index in 0..lines.len() - 1 {
-                    let row = lines.get(row_index).unwrap();
-                    let value: &str = row.get(4 * stack_key - 3..4 * stack_key - 2).unwrap_or("");
-                    if !value.trim().is_empty() {
-                        stack.push(value.chars().last().unwrap());
-                    }
-                }
-
-                stack.reverse();
-                stack
+            .into_iter()
+            .map(|stack_key: usize| {
+                (0..lines.len() - 1)
+                    .filter_map(|row_index| {
+                        let row = lines.get(row_index).unwrap();
+                        let value: &str =
+                            row.get(4 * stack_key - 3..4 * stack_key - 2).unwrap_or("");
+                        if value.trim().is_empty() {
+                            return None;
+                        }
+                        Some(value.chars().last().unwrap())
+                    })
+                    .rev()
+                    .collect()
             })
             .collect()
     }
