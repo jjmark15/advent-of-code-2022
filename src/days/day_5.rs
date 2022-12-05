@@ -1,9 +1,6 @@
 pub fn part_1(stacks: Vec<Stack>, instructions: Vec<Instruction>) -> Vec<Crate> {
     let mut stacks = Stacks(stacks);
-    instructions.iter().for_each(|i| {
-        stacks.apply(i);
-    });
-
+    instructions.iter().for_each(|i| stacks.apply(i));
     stacks.top_crates()
 }
 
