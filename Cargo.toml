@@ -4,7 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+derive-new = "0.5"
 itertools = "0.10"
 
 [dev-dependencies]
+regex = "1.7"
 speculoos = "0.10"
