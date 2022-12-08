@@ -1,5 +1,3 @@
-extern crate core;
-
 pub use days::*;
 
 mod days;
